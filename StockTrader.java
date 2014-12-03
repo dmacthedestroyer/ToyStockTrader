@@ -29,7 +29,7 @@ public class StockTrader {
 	public void processHistoricalInfo(DailyStockInfo[] historicalInfo) {
 		nn = new MultiLayerPerceptron(5, 10, 1);
 		BackPropagation lr = new BackPropagation();
-		lr.setMaxIterations(10000);
+		lr.setMaxIterations(1000000);
 		nn.setLearningRule(lr);
 
 		nn.learn(buildDataSet(historicalInfo));
@@ -48,14 +48,24 @@ public class StockTrader {
 		if (nn == null)
 			throw new IllegalStateException("Must call processHistoricalInfo prior to calling shouldInvest");
 
+
+		return getExpectedOpeningPrice(todaysInfo) > getInvestmentThreshold();
+	}
+
+	public double getExpectedOpeningPrice(DailyStockInfo todaysInfo){
 		double[] input = new double[]{todaysInfo.openingPrice, todaysInfo.highPrice, todaysInfo.lowPrice, todaysInfo.closingPrice, todaysInfo.volume};
 		normalizer.normalizeInput(input);
 		nn.setInput(input);
 		nn.calculate();
 		double output = nn.getOutput()[0];
-		System.out.println(output);
 
-		return output > getInvestmentThreshold();
+		return output;
+	}
+
+	public double denormalizeOutput(double output) {
+		double[] outputs = new double[]{output};
+		normalizer.denormalizeOutput(outputs);
+		return outputs[0];
 	}
 
 	protected double getInvestmentThreshold() {

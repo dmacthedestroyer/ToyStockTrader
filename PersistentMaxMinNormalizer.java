@@ -62,4 +62,19 @@ public class PersistentMaxMinNormalizer implements Normalizer {
 	private double normalize(double denormalizedValue, double maxValue, double minValue) {
 		return (denormalizedValue - minValue) / (maxValue - minValue);
 	}
+
+	public void denormalizeOutput(double[] output){
+		for (int i = 0; i < output.length; i++) {
+			output[i] = denormalizeOutput(i, output[i]);
+		}
+	}
+
+	private double denormalizeOutput(int column, double normalizedValue) {
+		return denormalize(normalizedValue, maxOutput[column], minOutput[column]);
+	}
+
+	private double denormalize(double normalizedValue, double maxValue, double minValue) {
+		return (normalizedValue * (maxValue - minValue)) + minValue;
+	}
+
 }
