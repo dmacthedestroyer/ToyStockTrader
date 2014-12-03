@@ -7,7 +7,7 @@ public class Main {
 	private static final boolean LOG_TRADES = false;
 	
 	public static void main(String[] args) throws IOException {
-		File[] files = new File(".").listFiles(new FilenameFilter() {
+		File[] files = new File(".\\src").listFiles(new FilenameFilter() {
 	        public boolean accept(File dir, String name) {
 	                return name.endsWith(".csv");
 	        }});
