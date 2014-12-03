@@ -3,12 +3,16 @@
  * a single stock and decides whether to invest in the stock.
  */
 public class StockTrader {
+	DailyStockNN nn;
+
 	/**
 	 * Processes historical (past) stock information.
 	 * 
 	 * @param historicalInfo historical stock information in chronological order.
 	 */
 	public void processHistoricalInfo(DailyStockInfo[] historicalInfo) {
+		nn= new DailyStockNN();
+		nn.learn(historicalInfo);
 	}
 	
 	/**
@@ -21,6 +25,9 @@ public class StockTrader {
 	 * on the following day, or <code>false</code> otherwise.
 	 */
 	public boolean shouldInvest(DailyStockInfo todaysInfo) {
-		return false;
+		if(nn == null)
+			throw new IllegalStateException("Must call processHistoricalInfo prior to calling shouldInvest");
+
+		return nn.shouldInvest(todaysInfo);
 	}
 }
