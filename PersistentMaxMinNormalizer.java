@@ -7,10 +7,10 @@ public class PersistentMaxMinNormalizer implements Normalizer {
 
 	@Override
 	public void normalize(DataSet dataSet) {
-		maxInput = new double[dataSet.getInputSize()];
-		minInput = new double[dataSet.getInputSize()];
-		maxOutput = new double[dataSet.getOutputSize()];
-		minOutput = new double[dataSet.getOutputSize()];
+		maxInput = buildDefaultArray(dataSet.getInputSize(), Double.MIN_VALUE);
+		minInput = buildDefaultArray(dataSet.getInputSize(), Double.MAX_VALUE);
+		maxOutput = buildDefaultArray(dataSet.getOutputSize(), Double.MIN_VALUE);
+		minOutput = buildDefaultArray(dataSet.getOutputSize(), Double.MAX_VALUE);
 
 		for (DataSetRow row : dataSet.getRows()) {
 			double[] input = row.getInput();
@@ -29,6 +29,15 @@ public class PersistentMaxMinNormalizer implements Normalizer {
 			normalizeInput(row.getInput());
 			normalizeOutput(row.getDesiredOutput());
 		}
+	}
+
+	private double[] buildDefaultArray(int size, double defaultValue) {
+		double[] ret = new double[size];
+		for (int i = 0; i < size; i++) {
+			ret[i] = defaultValue;
+		}
+
+		return ret;
 	}
 
 	public void normalizeInput(double[] input) {
