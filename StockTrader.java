@@ -1,38 +1,17 @@
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
-import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.nnet.learning.BackPropagation;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Implements an automated stock trader.  The trader is fed daily information about
  * a single stock and decides whether to invest in the stock.
  */
 public class StockTrader {
-	NeuralNetwork nn;
-	PersistentMaxMinNormalizer normalizer;
-
-	private final double investmentThreshold;
-
-	public StockTrader() {
-		this(0.2);
-	}
-
-	public StockTrader(double investmentThreshold) {
-		this.investmentThreshold = investmentThreshold;
-	}
-
 	/**
 	 * Processes historical (past) stock information.
 	 *
 	 * @param historicalInfo historical stock information in chronological order.
 	 */
 	public void processHistoricalInfo(DailyStockInfo[] historicalInfo) {
-		nn = new MultiLayerPerceptron(5, 10, 1);
-		BackPropagation lr = new BackPropagation();
-		lr.setMaxIterations(1000000);
-		nn.setLearningRule(lr);
-
-		nn.learn(buildDataSet(historicalInfo));
+		throw new NotImplementedException();
 	}
 
 	/**
@@ -45,44 +24,14 @@ public class StockTrader {
 	 * on the following day, or <code>false</code> otherwise.
 	 */
 	public boolean shouldInvest(DailyStockInfo todaysInfo) {
-		if (nn == null)
-			throw new IllegalStateException("Must call processHistoricalInfo prior to calling shouldInvest");
-
-
-		return getExpectedOpeningPrice(todaysInfo) > getInvestmentThreshold();
+		throw new NotImplementedException();
 	}
 
-	public double getExpectedOpeningPrice(DailyStockInfo todaysInfo){
-		double[] input = new double[]{todaysInfo.openingPrice, todaysInfo.highPrice, todaysInfo.lowPrice, todaysInfo.closingPrice, todaysInfo.volume};
-		normalizer.normalizeInput(input);
-		nn.setInput(input);
-		nn.calculate();
-		double output = nn.getOutput()[0];
-
-		return output;
+	public double getNormalizedOutput(double output){
+		throw new NotImplementedException();
 	}
 
-	public double denormalizeOutput(double output) {
-		double[] outputs = new double[]{output};
-		normalizer.denormalizeOutput(outputs);
-		return outputs[0];
-	}
-
-	protected double getInvestmentThreshold() {
-		return investmentThreshold;
-	}
-
-	private DataSet buildDataSet(DailyStockInfo[] historicalInfo) {
-		DataSet ds = new DataSet(5, 1);
-		for (int i = 0; i < historicalInfo.length - 1; i++) {
-			DailyStockInfo dsi = historicalInfo[i];
-			double nextDayOpeningPrice = historicalInfo[i + 1].openingPrice;
-			ds.addRow(new double[]{dsi.openingPrice, dsi.highPrice, dsi.lowPrice, dsi.closingPrice, dsi.volume}, new double[]{nextDayOpeningPrice});
-		}
-
-		normalizer = new PersistentMaxMinNormalizer();
-		normalizer.normalize(ds);
-
-		return ds;
+	public double getExpectedOpeningPrice(DailyStockInfo todaysInfo) {
+		throw new NotImplementedException();
 	}
 }
