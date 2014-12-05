@@ -10,10 +10,14 @@ public class Main {
 	private static final boolean LOG_TRADES = true;
 
 	public static void main(String[] args) throws IOException {
+		double totalProfit = 0;
 		for (DailyStockInfo[] data : loadAllStockInfo()) {
 			double profit = simulateTrading(data) - STARTING_CASH;
+			totalProfit += profit;
 			System.out.println("Profit: " + String.format("%.2f", profit));
 		}
+
+		System.out.printf("Total Profit: %.2f\n", totalProfit);
 	}
 
 	public static List<DailyStockInfo[]> loadAllStockInfo() {
