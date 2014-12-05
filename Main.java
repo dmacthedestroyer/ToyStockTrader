@@ -16,7 +16,7 @@ public class Main {
 		}
 	}
 
-	public static List<DailyStockInfo[]> loadAllStockInfo() throws IOException {
+	public static List<DailyStockInfo[]> loadAllStockInfo() {
 		List<DailyStockInfo[]> stockInfo = new ArrayList<>();
 
 		File[] files = new File(".\\src").listFiles(new FilenameFilter() {
@@ -25,7 +25,11 @@ public class Main {
 			}
 		});
 		for (File file : files) {
-			stockInfo.add(loadStockInfo(file));
+			try {
+				stockInfo.add(loadStockInfo(file));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		return stockInfo;

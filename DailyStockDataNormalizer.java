@@ -12,17 +12,17 @@ public class DailyStockDataNormalizer implements Normalizer {
 			normalize(row.getInput());
 	}
 
-	public double[] normalize(DailyStockInfo data) {
+	public static double[] normalize(DailyStockInfo data) {
 		double[] d = new double[]{data.openingPrice, data.highPrice, data.lowPrice, data.closingPrice, data.volume};
 		normalize(d);
 		return d;
 	}
 
-	private void normalize(double[] dataSet) {
+	private static void normalize(double[] dataSet) {
 		if (max.length != dataSet.length)
 			throw new IllegalArgumentException("input must be length " + max.length);
 
 		for (int i = 0; i < dataSet.length; i++)
-			dataSet[i] = (dataSet[i] - min[i]) / (max[i] / min[i]);
+			dataSet[i] = (dataSet[i] - min[i]) / (max[i] - min[i]);
 	}
 }
