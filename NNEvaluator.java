@@ -4,16 +4,14 @@ import java.util.stream.Collectors;
 
 public class NNEvaluator {
 	public static void main(String[] args) {
-//		Set<NNConfiguration> nns = loadNNConfigurations();
+//		List<NNConfiguration> nns = new ArrayList<>();
 //		final double learningRate = 0.1;
 //		for (int historyDepth = 0; historyDepth <= 10; historyDepth += 2)
 //			for (int futureDepth = 1; futureDepth <= 1; futureDepth += 2)
-//				for (int l1PerceptronCount = 2; l1PerceptronCount < 3; l1PerceptronCount++)
-//					for (int l2PerceptronCount = 0; l2PerceptronCount < 1; l2PerceptronCount++) {
-//						NNConfiguration nn = new NNConfiguration(historyDepth, futureDepth, l1PerceptronCount, l2PerceptronCount, learningRate);
-//						if(!nns.contains(nn))
-//							nns.add(nn);
-//					}
+//				for (int l1PerceptronCount = 1; l1PerceptronCount < 4 * historyDepth / 3; l1PerceptronCount++)
+//					for (int l2PerceptronCount = 0; l2PerceptronCount < l1PerceptronCount/2; l2PerceptronCount++)
+//						nns.add(new NNConfiguration(historyDepth, futureDepth, l1PerceptronCount, l2PerceptronCount, learningRate));
+//
 //		System.out.printf("%s total configurations to explore\n", nns.size());
 //
 //		ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 1);
@@ -23,7 +21,7 @@ public class NNEvaluator {
 //				System.out.printf("%s\t%f\t%s\n", nnc, getTotalAverageError(new ForecastStockNN(nnc)), (System.currentTimeMillis() - start) / 1000);
 //			});
 
-		System.out.println("Total Avg. Error: " + getTotalAverageError(new ForecastStockNN(2, 5, 1, 0, 0.1)));
+		System.out.println("Total Avg. Error: " + getTotalAverageError(new ForecastStockNN(4, 1, 2, 0, 0.1)));
 	}
 
 	public static double getTotalAverageError(ForecastStockNN nn) {

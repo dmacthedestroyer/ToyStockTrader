@@ -58,11 +58,7 @@ public class ForecastStockNN {
 
 			double[] calculated = getForecastHorizon(i);
 
-//			for (int j = 0; j < calculated.length; j++) {
-//				System.out.printf("%.4f\t", Math.abs((calculated[j] - actual[j]) / actual[j]));
-//				System.out.printf("%.4f\t%.4f\n", calculated[j], actual[j]);
-//			}
-//			System.out.println();
+			System.out.printf("%s\t\t%s\n", Arrays.toString(calculated), Arrays.toString(actual));
 
 			for (int j = 0; j < calculated.length; j++) {
 				totalCalculated[j] += calculated[j];
@@ -110,7 +106,7 @@ public class ForecastStockNN {
 	private double[] buildDataSetInputRow(int rowIndex) {
 		List<DailyStockInfo> data = history.subList(rowIndex - historyDepth, rowIndex);
 		List<Double> inputList = new ArrayList<>();
-		data.stream().forEach(dsi -> inputList.addAll(Arrays.asList(dsi.openingPrice, dsi.highPrice, dsi.lowPrice, dsi.closingPrice, (double) dsi.volume)));
+		data.stream().forEach(dsi -> inputList.addAll(Arrays.asList(dsi.openingPrice)));
 
 		double[] inputArray = new double[inputList.size()];
 		for (int i = 0; i < inputList.size(); i++)
@@ -129,7 +125,7 @@ public class ForecastStockNN {
 	}
 
 	private int getFeaturesPerRecord() {
-		return 5;
+		return 1;
 	}
 
 	private int getDataSetInputSize() {

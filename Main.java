@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
 	public static final double STARTING_CASH = 1000;
 	public static final double TRADE_COST = 5;
-	private static final boolean LOG_TRADES = true;
+	private static final boolean LOG_TRADES = false;
 
 	public static void main(String[] args) throws IOException {
 		double totalProfit = 0;

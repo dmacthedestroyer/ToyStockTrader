@@ -1,18 +1,13 @@
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 /**
  * Implements an automated stock trader.  The trader is fed daily information about
  * a single stock and decides whether to invest in the stock.
  */
 public class StockTrader {
-	static final double buyLowThreshold = 0.15;
-	static final double sellHighThreshold = 0.8;
-
 	private final ForecastStockNN nn;
 	private Double currentPurchasedStockPrice;
 
 	public StockTrader(){
-		nn = new ForecastStockNN(0, 1, 1, 0, 0.1);
+		nn = new ForecastStockNN(4, 1, 2, 0, 0.1);
 	}
 
 	/**
@@ -37,30 +32,22 @@ public class StockTrader {
 		nn.addStockInfo(todaysInfo);
 		double[] forecast = nn.getForecastHorizon();
 
+//		System.out.println(Arrays.toString(forecast));
+
 		if (currentPurchasedStockPrice == null) { //we're not currently invested
-			boolean buy = forecast[0] < 0.7;
-			for (int i = 1; i < forecast.length; i++)
-				buy = buy && forecast[0] < forecast[i]; //has the market bottomed out yet?
+			boolean buy = forecast[0] < 0.4;
+//			for (int i = 1; i < forecast.length; i++)
+//				buy = buy && forecast[0] < forecast[i]; //has the market bottomed out yet?
 			if (buy)
 				currentPurchasedStockPrice = forecast[0];
 			return buy;
 		} else { //we're currently invested
-			boolean sell = currentPurchasedStockPrice > forecast[0] + 0.1;
-			for (int i = 1; i < forecast.length; i++)
-				sell = sell && forecast[0] > forecast[i]; //has the market peaked yet?
-			if (sell) {
+			boolean sell = currentPurchasedStockPrice + 0.1 < forecast[0];
+//			for (int i = 1; i < forecast.length; i++)
+//				sell = sell && forecast[0] > forecast[i]; //has the market peaked yet?
+			if (sell)
 				currentPurchasedStockPrice = null;
-				return false;
-			}
-			return true;
+			return !sell;
 		}
-	}
-
-	public double getNormalizedOutput(double output){
-		throw new NotImplementedException();
-	}
-
-	public double getExpectedOpeningPrice(DailyStockInfo todaysInfo) {
-		throw new NotImplementedException();
 	}
 }
