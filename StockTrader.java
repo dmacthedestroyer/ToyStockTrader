@@ -7,7 +7,11 @@ public class StockTrader {
 	private Double currentPurchasedStockPrice;
 
 	public StockTrader(){
-		nn = new ForecastStockNN(4, 1, 2, 0, 0.1);
+		this(new ForecastStockNN(4, 1, 2, 0, 0.1));
+	}
+
+	public StockTrader(ForecastStockNN nn){
+		this.nn = nn;
 	}
 
 	/**
@@ -36,15 +40,15 @@ public class StockTrader {
 
 		if (currentPurchasedStockPrice == null) { //we're not currently invested
 			boolean buy = forecast[0] < 0.4;
-//			for (int i = 1; i < forecast.length; i++)
-//				buy = buy && forecast[0] < forecast[i]; //has the market bottomed out yet?
+			for (int i = 1; i < forecast.length; i++)
+				buy = buy && forecast[0] < forecast[i]; //has the market bottomed out yet?
 			if (buy)
 				currentPurchasedStockPrice = forecast[0];
 			return buy;
 		} else { //we're currently invested
 			boolean sell = currentPurchasedStockPrice + 0.1 < forecast[0];
-//			for (int i = 1; i < forecast.length; i++)
-//				sell = sell && forecast[0] > forecast[i]; //has the market peaked yet?
+			for (int i = 1; i < forecast.length; i++)
+				sell = sell && forecast[0] > forecast[i]; //has the market peaked yet?
 			if (sell)
 				currentPurchasedStockPrice = null;
 			return !sell;

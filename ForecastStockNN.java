@@ -58,7 +58,7 @@ public class ForecastStockNN {
 
 			double[] calculated = getForecastHorizon(i);
 
-			System.out.printf("%s\t\t%s\n", Arrays.toString(calculated), Arrays.toString(actual));
+//			System.out.printf("%s\t\t%s\n", Arrays.toString(calculated), Arrays.toString(actual));
 
 			for (int j = 0; j < calculated.length; j++) {
 				totalCalculated[j] += calculated[j];
